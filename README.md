@@ -23,7 +23,7 @@
   1. [Arrays](#arrays)
   1. [Resources](#resources)
 
-## Types
+## SSS
 
   <a name="1.1"></a>
   <a name="types--primitives"></a>
