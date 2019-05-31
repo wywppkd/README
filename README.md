@@ -27,7 +27,7 @@
 
   <a name="1.1"></a>
   <a name="types--primitives"></a>
-  - [1.1](#types--primitives) 小标题锚点，貌似`<a name="1.1"></a>`不是必须的
+  - [1.1](#types--primitives) 小标题，锚点: 貌似`<a name="1.1"></a>`不是必须的
     - `string`
     - `number`
     - `boolean`
@@ -43,14 +43,14 @@
 
     console.log(foo, bar); // => 1, 9
     ```
-    + Symbols 不能被正确的polyfill。 所以在不能原生支持symbol类型的环境[浏览器]中，不应该使用 symbol 类型。
+    - `Symbols`
 
   <a name="1.2"></a>
   <a name="types--complex"></a>
-  - [1.2](#types--complex)  复杂类型: 复杂类型赋值是获取到他的引用的值。 相当于传引用
-    + `object`
-    + `array`
-    + `function`
+  - [1.2](#types--complex)  小标题
+    - `object`
+    - `array`
+    - `function`
 
     ```javascript
     const foo = [1, 2];
@@ -61,7 +61,7 @@
     console.log(foo[0], bar[0]); // => 9, 9
     ```
 
-**[⬆ back to top](#目录)**
+**[⬆ 回到顶部](#目录)**
 
 ## References
 
@@ -303,252 +303,6 @@
 
 **[⬆ back to top](#目录)**
 
-## Arrays
-
-  <a name="4.1"></a>
-  <a name="arrays--literals"></a>
-  - [4.1](#arrays--literals) 用字面量赋值。 eslint: [`no-array-constructor`](http://eslint.org/docs/rules/no-array-constructor.html)
-
-    ```javascript
-    // bad
-    const items = new Array();
-
-    // good
-    const items = [];
-    ```
-
-  <a name="4.2"></a>
-  <a name="arrays--push"></a>
-  - [4.2](#arrays--push) 用[Array#push](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push) 代替直接向数组中添加一个值。
-
-    ```javascript
-    const someStack = [];
-
-    // bad
-    someStack[someStack.length] = 'abracadabra';
-
-    // good
-    someStack.push('abracadabra');
-    ```
-
-  <a name="4.3"></a>
-  <a name="es6-array-spreads"></a>
-  - [4.3](#es6-array-spreads) 用扩展运算符做数组浅拷贝，类似上面的对象浅拷贝
-
-    ```javascript
-    // bad
-    const len = items.length;
-    const itemsCopy = [];
-    let i;
-
-    for (i = 0; i < len; i += 1) {
-      itemsCopy[i] = items[i];
-    }
-
-    // good
-    const itemsCopy = [...items];
-    ```
-
-  <a name="4.4"></a>
-  <a name="arrays--from-iterable"></a>
-  - [4.4](#arrays--from-iterable) 用 `...` 运算符而不是[`Array.from`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from)来将一个可迭代的对象转换成数组。
-
-    ```javascript
-    const foo = document.querySelectorAll('.foo');
-
-    // good
-    const nodes = Array.from(foo);
-
-    // best
-    const nodes = [...foo];
-    ```
-
-  <a name="4.5"></a>
-  <a name="arrays--from-array-like"></a>
-  - [4.5](#arrays--from-array-like) 用 [`Array.from`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from) 去将一个类数组对象转成一个数组。
-
-    ```javascript
-    const arrLike = { 0: 'foo', 1: 'bar', 2: 'baz', length: 3 };
-
-    // bad
-    const arr = Array.prototype.slice.call(arrLike);
-
-    // good
-    const arr = Array.from(arrLike);
-    ```
-
-  <a name="4.6"></a>
-  <a name="arrays--mapping"></a>
-  - [4.6](#arrays--mapping) 用 [`Array.from`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from) 而不是 `...` 运算符去做map遍历。 因为这样可以避免创建一个临时数组。
-
-    ```javascript
-    // bad
-    const baz = [...foo].map(bar);
-
-    // good
-    const baz = Array.from(foo, bar);
-    ```
-
-  <a name="4.7"></a>
-  <a name="arrays--callback-return"></a>
-  - [4.7](#arrays--callback-return) 在数组方法的回调函数中使用 return 语句。 如果函数体由一条返回一个表达式的语句组成， 并且这个表达式没有副作用， 这个时候可以忽略return，详见 [8.2](#arrows--implicit-return). eslint: [`array-callback-return`](http://eslint.org/docs/rules/array-callback-return)
-
-    ```javascript
-    // good
-    [1, 2, 3].map((x) => {
-      const y = x + 1;
-      return x * y;
-    });
-
-    // good 函数只有一个语句
-    [1, 2, 3].map(x => x + 1);
-
-    // bad - 没有返回值， 因为在第一次迭代后acc 就变成undefined了
-    [[0, 1], [2, 3], [4, 5]].reduce((acc, item, index) => {
-      const flatten = acc.concat(item);
-      acc[index] = flatten;
-    });
-
-    // good
-    [[0, 1], [2, 3], [4, 5]].reduce((acc, item, index) => {
-      const flatten = acc.concat(item);
-      acc[index] = flatten;
-      return flatten;
-    });
-
-    // bad
-    inbox.filter((msg) => {
-      const { subject, author } = msg;
-      if (subject === 'Mockingbird') {
-        return author === 'Harper Lee';
-      } else {
-        return false;
-      }
-    });
-
-    // good
-    inbox.filter((msg) => {
-      const { subject, author } = msg;
-      if (subject === 'Mockingbird') {
-        return author === 'Harper Lee';
-      }
-
-      return false;
-    });
-    ```
-
-  <a name="4.8"></a>
-  <a name="arrays--bracket-newline"></a>
-  - [4.8](#arrays--bracket-newline) 如果一个数组有很多行，在数组的 `[` 后和 `]` 前断行。 请看下面示例
-
-    ```javascript
-    // bad
-    const arr = [
-      [0, 1], [2, 3], [4, 5],
-    ];
-
-    const objectInArray = [{
-      id: 1,
-    }, {
-      id: 2,
-    }];
-
-    const numberInArray = [
-      1, 2,
-    ];
-
-    // good
-    const arr = [[0, 1], [2, 3], [4, 5]];
-
-    const objectInArray = [
-      {
-        id: 1,
-      },
-      {
-        id: 2,
-      },
-    ];
-
-    const numberInArray = [
-      1,
-      2,
-    ];
-    ```
-
-**[⬆ back to top](#目录)**
-
-## Destructuring
-
-  <a name="5.1"></a>
-  <a name="destructuring--object"></a>
-  - [5.1](#destructuring--object) 用对象的解构赋值来获取和使用对象某个或多个属性值。 eslint: [`prefer-destructuring`](https://eslint.org/docs/rules/prefer-destructuring)
-
-    > Why? 解构保存了这些属性的临时值/引用
-
-    ```javascript
-    // bad
-    function getFullName(user) {
-      const firstName = user.firstName;
-      const lastName = user.lastName;
-
-      return `${firstName} ${lastName}`;
-    }
-
-    // good
-    function getFullName(user) {
-      const { firstName, lastName } = user;
-      return `${firstName} ${lastName}`;
-    }
-
-    // best
-    function getFullName({ firstName, lastName }) {
-      return `${firstName} ${lastName}`;
-    }
-    ```
-
-  <a name="5.2"></a>
-  <a name="destructuring--array"></a>
-  - [5.2](#destructuring--array) 用数组解构.
-
-    ```javascript
-    const arr = [1, 2, 3, 4];
-
-    // bad
-    const first = arr[0];
-    const second = arr[1];
-
-    // good
-    const [first, second] = arr;
-    ```
-
-  <a name="5.3"></a>
-  <a name="destructuring--object-over-array"></a>
-  - [5.3](#destructuring--object-over-array) 多个返回值用对象的解构，而不是数据解构。
-
-    > Why? 你可以在后期添加新的属性或者变换变量的顺序而不会打破原有的调用
-
-    ```javascript
-    // bad
-    function processInput(input) {
-      // 然后就是见证奇迹的时刻
-      return [left, right, top, bottom];
-    }
-
-    // 调用者需要想一想返回值的顺序
-    const [left, __, top] = processInput(input);
-
-    // good
-    function processInput(input) {
-      // oops， 奇迹又发生了
-      return { left, right, top, bottom };
-    }
-
-    // 调用者只需要选择他想用的值就好了
-    const { left, top } = processInput(input);
-    ```
-
-
-**[⬆ back to top](#目录)**
 ## Resources
 
 **Learning ES6**
