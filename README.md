@@ -25,14 +25,15 @@
 
 ## Types
 
+  <a name="1.1"></a>
   <a name="types--primitives"></a>
-  - [1.1](#types--primitives) 基本类型: 你可以直接获取到基本类型的值
-    + `string`
-    + `number`
-    + `boolean`
-    + `null`
-    + `undefined`
-    + `symbol`
+  - [1.1](#types--primitives) 小标题锚点，貌似`<a name="1.1"></a>`不是必须的
+    - `string`
+    - `number`
+    - `boolean`
+    - `null`
+    - `undefined`
+    - `symbol`
 
     ```javascript
     const foo = 1;
