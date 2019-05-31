@@ -25,7 +25,7 @@
 
 ## Types
 
-
+  <a name="1.1"></a>
   - [1.1](#types--primitives) 基本类型: 你可以直接获取到基本类型的值
     + `string`
     + `number`
