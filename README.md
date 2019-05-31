@@ -17,7 +17,7 @@
 
 ## 目录
 
-  1. [SSS](#types) 括号内的#号后面的值需要与标题对应
+  1. [Types](#types) 锚点：括号内#号后面的值需要与标题对应(不区分大小写)
   1. [References](#references)
   1. [Objects](#objects)
   1. [Arrays](#arrays)
