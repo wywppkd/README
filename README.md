@@ -17,7 +17,7 @@
 
 ## 目录
 
-  1. [Types](#types)
+  1. [SSS](#types) 括号内的#号后面的值需要与标题对应
   1. [References](#references)
   1. [Objects](#objects)
   1. [Arrays](#arrays)
@@ -25,7 +25,7 @@
 
 ## Types
 
-  <a name="1.1"></a>
+  <a name="types--primitives"></a>
   - [1.1](#types--primitives) 基本类型: 你可以直接获取到基本类型的值
     + `string`
     + `number`
