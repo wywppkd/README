@@ -6,18 +6,15 @@ name: CI
 on:
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# 一个 workflow 由多个 jobs 组成, 并且他们可以并行运行
 jobs:
-  # This workflow contains a single job called "build"
+  # 一个job
   build-on-linux:
-    # The type of runner that the job will run on
+    # 指定 Runer
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # 当前 job 中需要执行的一系列任务
     steps:
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          date
+      - name: 执行一个脚本
+        run: echo 当前时间 date
